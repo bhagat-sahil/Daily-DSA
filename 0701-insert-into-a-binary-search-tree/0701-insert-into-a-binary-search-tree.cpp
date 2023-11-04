@@ -42,7 +42,7 @@ public:
         {
             TreeNode* node = new TreeNode( val ) ;
             return node ;
-            return root ;
+            
         }
         insertBST( root, val ) ;
         return root ;
