@@ -15,21 +15,21 @@ class Solution
         int pick = 0 ;
         
         
-        if (dp[i][w] != -1) return dp[i][w] ;
+        if (dp[w][i] != -1) return dp[w][i] ;
         if ( w-wt[i] >= 0 )
         {
             pick = val[i] + findans( w-wt[i] , n , wt, val, i+1, dp ) ;
         }
         int skip = findans( w, n, wt, val, i+1, dp ) ;
         
-        return dp[i][w] = max(pick,skip) ;
+        return dp[w][i] = max(pick,skip) ;
     }
     
     
     
     int knapSack(int W, int wt[], int val[], int n) 
     { 
-       vector<vector<int>>dp( n+1, vector<int>(W+1,-1) ) ;
+       vector<vector<int>>dp( W+1, vector<int>(n+1,-1) ) ;
        return findans( W, n, wt, val, 0, dp ) ;
     }
 };
