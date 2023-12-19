@@ -6,37 +6,40 @@ using namespace std;
 class Solution
 {
 	public:
-	
-	
-	void dfs( int node, vector<int>&visited, stack<int>&stack, vector<int>adj[])
-	{
-	    visited[node] = 1 ;
-	    for ( auto child : adj[node])
-	    {
-	        if (!visited[child])
-	        dfs( child, visited, stack, adj ) ;
-	    }
-	    stack.push(node) ;
-	}
-	
 	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
-	    vector<int>visited(V,0) ;
-	    stack<int>stack ; 
+	    //make a indegree vector which will contain the no. of indegree of the nodes 
+	    //then push all the nodes with 0 indegree IN DAG THERE ALWAYS BE ATLEAST ONE NODE WITH 0 INDEGREE
+	    //add the front of the queue and pop and 
+	    //then start traversing to its children and reducing the indegree of the childrens by one 
+	    //if the indegree becames 0 then push it in the queue.
+	    
+	    
+	    vector<int>indegree(V,0) ;
+	    queue<int>q ;
 	    vector<int>ans ;
+	    
 	    for ( int i = 0 ; i < V ; i++ )
+	        for ( auto it : adj[i])
+	            indegree[it]++ ;
+	            
+	            
+	    for ( int i = 0 ; i < V ; i++ )
+	        if ( indegree[i] == 0 ) q.push(i) ;
+	    
+	    while( !q.empty())
 	    {
-	        if ( !visited[i])
-	        dfs(i, visited, stack, adj ) ;
-	    }
-	    while ( !stack.empty())
-	    {
-	        int node = stack.top() ;
+	        int node = q.front() ;
+	        q.pop() ;
 	        ans.push_back(node) ;
-	        stack.pop() ;
+	        for ( auto child : adj[node] )
+	        {
+	            indegree[child]-- ;
+	            if ( indegree[child] == 0 ) q.push(child) ;
+	        }
 	    }
-	    return ans ;
+	    return ans;
 	}
 };
 
