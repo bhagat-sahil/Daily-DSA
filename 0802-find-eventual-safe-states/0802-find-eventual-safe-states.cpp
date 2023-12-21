@@ -1,37 +1,78 @@
 class Solution {
 public:
-    
-    
-    bool dfs( int i, vector<int>&visited, vector<int>&pathVisited, vector<int>&ans, vector<vector<int>>& graph )
-    {
-        visited[i] = 1 ;
-        pathVisited[i] = 1 ;
-        for ( auto child : graph[i] )
-        {
-            if ( pathVisited[child] == 1 ) return true ;
-            if ( !visited[child] )
-            {
-                if (dfs( child, visited, pathVisited, ans, graph ))
-                    return true ;
-            }
-        }
-        ans.push_back(i) ;
-        pathVisited[i] = 0 ;
-        return false ;
-    }
-    
-    vector<int> eventualSafeNodes(vector<vector<int>>& graph) 
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph)
     {
         int m = graph.size() ;
-        vector<int>visited(m,0) ;
-        vector<int>pathVisited(m,0) ;
-        vector<int>ans ;
+        int n = graph[0].size() ;
+        vector<int>indegree(m) ;
+        vector<vector<int>>adj(m) ;
         for ( int i = 0 ; i < m ; i++ )
         {
-            if ( !visited[i])
-                dfs( i, visited, pathVisited, ans, graph ) ;
+            for ( auto it : graph[i] )
+            {
+                adj[it].push_back(i) ;
+                indegree[i]++ ;
+            }
+                
         }
-        sort(ans.begin(),ans.end()) ;
-        return ans ;
+        
+        queue<int>q ;
+        for ( int i = 0 ; i < m ; i++ )
+        {
+            if (indegree[i] == 0)
+                q.push(i) ;
+        }
+            
+        vector<int>safeNodes ;
+        
+        while( !q.empty())
+        {
+            int node = q.front() ;
+            q.pop() ;
+            safeNodes.push_back(node) ;
+            for ( auto child : adj[node])
+            {
+                indegree[child]-- ;
+                if ( indegree[child] == 0 ) q.push(child) ;
+            }
+        }
+        sort(safeNodes.begin(),safeNodes.end()) ;
+        return safeNodes ;
+        
     }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
