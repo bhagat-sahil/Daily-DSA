@@ -26,23 +26,20 @@ public:
     int lengthOfLIS(vector<int>& nums) 
     {
         int n = nums.size() ;
-        vector<int>next(n+1,0), curr(n+1,0) ;
-        
-        for ( int i = n-1 ; i >= 0 ; i-- )
+        vector<int>dp(n+1,1) ;
+        int maxi = 0 ;
+        for ( int i = 0 ; i < n ; i++ )
         {
-            for ( int prev = i-1 ; prev >= -1 ; prev-- )
+            for ( int prev = 0 ; prev < i ; prev++ )
             {
-                
-                int take = 0 , notTake = next[prev+1] ;
-                if ( prev == -1 || nums[prev] < nums[i])
+                if ( nums[i] > nums[prev])
                 {
-                    take = 1 + next[i+1] ;
+                    dp[i] = max( dp[i], 1+ dp[prev] ) ;
                 }
-                curr[prev+1] = max( take, notTake ) ;
             }
-            next = curr ;
+            maxi = max( maxi, dp[i]) ;
         }
-        return next[0] ;
+        return maxi ;
     }
 };
 
