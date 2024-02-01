@@ -1,59 +1,64 @@
 class Solution {
 public:
-    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) 
+    
+    int bfs( vector<vector<pair<int, int>>> &adj, int source, int threshold,  int n) 
     {
-        vector<vector<int>>distance(n,vector<int>(n,INT_MAX));
+        queue<pair<int, int>> queue ;
+        vector<bool> vis(n, false) ;
+        queue.push({source, 0}) ;
         
-        for(auto current : edges)
+        
+        int count = 0 ;
+        
+        while( !queue.empty() ) 
         {
-            int to = current[0] ;
-            int from = current[1] ;
-            int weight = current[2] ;
             
-            distance[to][from] = weight ;
-            distance[from][to] = weight ; 
-        }
-        
-        for( int m = 0 ; m < n ; m++ )
-        {
-            for(int source = 0 ; source < n ; source++ )
+            int curr = queue.front().first ;
+            int dist = queue.front().second ;
+            vis[curr] = true ;
+            queue.pop() ;
+            
+            
+            if ( dist > threshold ) continue ;
+            
+            for( auto &it : adj[curr] ) 
             {
-                for(int destination = 0 ; destination < n ; destination++ )
+                int adjNode = it.first ;
+                int wt = it.second ;
+                
+                if( !vis[adjNode] && wt + dist <= threshold )
                 {
-                    if( source == destination )
-                    {
-                        distance[source][destination] = 0 ;
-                        continue;
-                    }
-                    if( distance[source][m] != INT_MAX && distance[m][destination] != INT_MAX )
-                    {
-                        distance[source][destination] = min(distance[source][destination],
-                                                         distance[source][m]+distance[m][destination]);
-                    }
+                    queue.push( { adjNode, wt + dist } ) ;
+                    count++ ;                
                 }
             }
         }
+        return count;
+    }
+    
+    
+    int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) 
+    {
+        vector<vector<pair<int,int>>> adj(n) ;
         
-        vector<int>cityCount(n,0);
-        for( int i = 0 ; i < n ; i++ )
+        for( auto &it : edges) 
         {
-            for( int j = 0 ; j < n ; j++ )
-            {
-                if( distance[i][j] <= distanceThreshold )
-                    cityCount[i]++ ;
-            }
+            adj[it[0]].push_back( {it[1], it[2]} ) ;
+            adj[it[1]].push_back( {it[0], it[2]} ) ;
         }
         
-        int ans = 0;
-        int minCount = INT_MAX;
-        for( int i = 0 ; i < n ; i++ )
+		int ans = n - 1 ;
+        int count = n - 1 ;
+        for( int i = 0 ; i < n ; i++ ) 
         {
-            if( cityCount[i] <= minCount )
+            int val = bfs( adj, i, distanceThreshold, n ) ;  
+            if( count >= val ) 
             {
-                minCount = cityCount[i] ;
+                count = val ;
                 ans = i ;
             }
         }
-        return ans;
+        return ans ;
+        
     }
 };
