@@ -1,41 +1,27 @@
 class Solution {
 public:
+
     
-    bool isValid ( string temp )
+    void makeParenthesis ( int close, int open, string&temp, vector<string>&ans, int n )
     {
-        int count = 0 ;
-        
-        for ( auto ch : temp )
+        if ( temp.size() == 2*n && open == close )
         {
-            if ( ch == '(' )
-                count++ ;
-            
-            else count-- ;
-            
-            if ( count < 0 )
-                return false ;
-        }
-        
-        return count == 0 ;
-    }
-    
-    
-    void makeParenthesis ( string&temp, vector<string>&ans, int n )
-    {
-        if ( temp.size() == 2*n )
-        {
-            if ( isValid(temp) )
-                ans.push_back(temp) ;
+            ans.push_back(temp) ;
             return ;
         }
         
-        temp.push_back('(') ;
-        makeParenthesis ( temp, ans, n ) ;
-        temp.pop_back() ;
-        
-        temp.push_back(')') ;
-        makeParenthesis( temp, ans, n ) ;
-        temp.pop_back() ;
+        if ( close < open )
+        {
+            temp.push_back(')') ;
+            makeParenthesis( close+1, open, temp, ans, n ) ;
+            temp.pop_back() ;
+        }
+        if ( open < n )
+        {
+            temp.push_back('(') ;
+            makeParenthesis( close, open+1, temp, ans, n ) ;
+            temp.pop_back() ;
+        }
     }
     
     
@@ -43,7 +29,7 @@ public:
         string temp ;
         vector<string>ans ;
         
-        makeParenthesis( temp, ans, n ) ;
+        makeParenthesis( 0, 0, temp, ans, n ) ;
         return ans ;
         
     }
