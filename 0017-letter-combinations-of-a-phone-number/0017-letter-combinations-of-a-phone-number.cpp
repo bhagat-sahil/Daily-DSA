@@ -1,39 +1,47 @@
 class Solution {
 public:
     
-    
-    void findCombinations( int n, string &temp, vector<string>&ans, string &digits, unordered_map<char, string >&m )
+    void findCombo ( int curIdx, unordered_map<char,string>&mp, string &temp,
+                   vector<string>&ans, string digits )
     {
-        if ( n == digits.size())
+        if ( curIdx >= digits.size() )
         {
             ans.push_back(temp) ;
             return ;
         }
-        string str = m[digits[n]] ;
-        for ( int i = 0 ; i < str.size() ; i++ )
+        
+        char ch = digits[curIdx] ;
+        string s = mp[ch] ;
+        
+        for ( int i = 0 ; i < s.size() ; i++ )
         {
-            temp.push_back(str[i]) ;
-            findCombinations( n+1, temp, ans, digits, m ) ;
+            temp.push_back(s[i]) ;
+            findCombo( curIdx+1, mp, temp, ans, digits ) ;
             temp.pop_back() ;
         }
         
     }
     
-    
     vector<string> letterCombinations(string digits) {
+        
         vector<string>ans ;
-        if ( digits.size() == 0  ) return ans ;
-        string temp ;
-        unordered_map<char, string > m ;
-        m['2'] = "abc" ;
-        m['3'] = "def" ;
-        m['4'] = "ghi" ;
-        m['5'] = "jkl" ;
-        m['6'] = "mno" ;
-        m['7'] = "pqrs" ;
-        m['8'] = "tuv" ;
-        m['9'] = "wxyz" ;
-        findCombinations( 0, temp, ans, digits, m ) ;
+        string temp = "" ;
+        if ( digits == "" )
+            return ans ;
+        
+        unordered_map<char,string> mp ;
+        
+        mp.insert({'2',"abc"}) ;
+        mp.insert({'3',"def"}) ;
+        mp.insert({'4',"ghi"}) ;
+        mp.insert({'5',"jkl"}) ;
+        mp.insert({'6',"mno"}) ;
+        mp.insert({'7',"pqrs"}) ;
+        mp.insert({'8',"tuv"}) ;
+        mp.insert({'9',"wxyz"}) ;
+        
+        findCombo( 0, mp, temp, ans, digits ) ;
         return ans ;
+         
     }
 };
