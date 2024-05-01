@@ -22,21 +22,6 @@ public:
     
     
     string digitSum(string s, int k) {
-//         string ans = "" ;
-//         int a = 0 ;
-//         int cSum = 0 ;
-//         for ( int i = 0 ; i < s.size() ; i++ )
-//         {
-//             a++ ;
-//             cSum += s[i]-'0' ;
-            
-//             if ( a == k || i == s.size()-1 )
-//             {
-//                 ans += to_string(cSum) ;
-//                 cSum = 0 ;
-//                 a = 0 ;
-//             }
-//         }
         
         while ( s.size() > k )
         {
