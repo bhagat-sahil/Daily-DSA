@@ -2,8 +2,7 @@ class Solution {
 public:
     int strStr(string h, string n) {
         
-        if ( h == n )
-            return 0 ;
+        
         
         int b = h.size() ;
         int a = n.size() ;
