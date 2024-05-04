@@ -8,16 +8,9 @@ public:
         while ( i <= j )
         {
             if ( people[i] + people[j] <= limit )
-            {
                 i++ ;
-                j-- ;
-
-            }
-            else 
-            {
-                j-- ;
-                
-            }
+            
+            j-- ;
             ans++ ;
             
         }
