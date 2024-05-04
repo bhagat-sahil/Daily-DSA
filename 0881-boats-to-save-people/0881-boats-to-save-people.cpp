@@ -11,13 +11,14 @@ public:
             {
                 i++ ;
                 j-- ;
-                ans++ ;
+
             }
             else 
             {
                 j-- ;
-                ans++ ;
+                
             }
+            ans++ ;
             
         }
         return ans ;
