@@ -1,21 +1,24 @@
 class Solution {
 public:
     int minimumOperationsToMakeKPeriodic(string word, int k) {
+        int n = word.size() ;
         unordered_map<string,int> mp ;
         string s = "" ;
         int mx = INT_MIN ;
-        
-        for ( int i = 0 ; i < word.size() ; i++ )
+        int size = 0 ;
+        for ( int i = 0 ; i < n ; i++ )
         {
             s += word[i] ;
-            if ( s.size() == k )
+            size++ ;
+            if ( size == k )
             {
                 mp[s]++ ;
                 mx = max( mx, mp[s] ) ;
                 s = "" ;
+                size = 0 ;
             }
         }
         
-        return word.size()/k - mx ;
+        return n/k - mx ;
     }
 };
