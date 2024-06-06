@@ -8,16 +8,13 @@ public:
         {
             if ( ch == 'E' && chair <= People  )
             {
-                cout<<"if"<<endl ;
                 ans++ ;
                 chair++ ;
                 People++ ;
             }
             else if ( ch == 'L' && People > 0 )
-            {
-                cout<<"else if"<<endl ;
                 People-- ;
-            }
+            
             else 
                 People++ ;
         }
